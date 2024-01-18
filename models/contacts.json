@@ -1,146 +1,62 @@
 [
   {
-    "id": "AeHIrLTr6JkxGE6SN-0Rw",
-    "name": "Jane Doe",
-    "email": "shbhjdbwhjbd@gmail.com",
-    "phone": "24353612187"
+    "name": "Allen Raymond",
+    "email": "nulla.ante@vestibul.co.uk",
+    "phone": "(992) 914-3792",
+    "favorite": false
   },
   {
-    "id": "drsAJ4SHPYqZeG-83QTVW",
+    "name": "Chaim Lewis",
+    "email": "dui.in@egetlacus.ca",
+    "phone": "(294) 840-6685",
+    "favorite": true
+  },
+  {
     "name": "Kennedy Lane",
     "email": "mattis.Cras@nonenimMauris.net",
-    "phone": "(542) 451-7038"
+    "phone": "(542) 451-7038",
+    "favorite": false
   },
   {
-    "id": "vza2RIzNGIwutCVCs4mCL",
-    "name": "Lucy Pope",
+    "name": "Wylie Pope",
     "email": "est@utquamvel.net",
-    "phone": "(692) 802-2949"
+    "phone": "(692) 802-2949",
+    "favorite": true
   },
   {
-    "id": "05olLMgyVQdWRwgKfg5J6",
     "name": "Cyrus Jackson",
     "email": "nibh@semsempererat.com",
-    "phone": "(501) 472-5218"
+    "phone": "(501) 472-5218",
+    "favorite": true
   },
   {
-    "id": "1DEXoP8AuCGYc1YgoQ6hw",
     "name": "Abbot Franks",
     "email": "scelerisque@magnis.org",
-    "phone": "(186) 568-3720"
+    "phone": "(186) 568-3720",
+    "favorite": true
   },
   {
-    "id": "Z5sbDlS7pCzNsnAHLtDJd",
     "name": "Reuben Henry",
     "email": "pharetra.ut@dictum.co.uk",
-    "phone": "(715) 598-5792"
+    "phone": "(715) 598-5792",
+    "favorite": true
   },
   {
-    "id": "C9sjBfCo4UJCWjzBnOtxl",
     "name": "Simon Morton",
     "email": "dui.Fusce.diam@Donec.com",
-    "phone": "(233) 738-2360"
+    "phone": "(233) 738-2360",
+    "favorite": true
   },
   {
-    "id": "e6ywwRe4jcqxXfCZOj_1e",
     "name": "Thomas Lucas",
     "email": "nec@Nulla.com",
-    "phone": "(704) 398-7993"
+    "phone": "(704) 398-7993",
+    "favorite": false
   },
   {
-    "id": "rsKkOQUi80UsgVPCcLZZW",
     "name": "Alec Howard",
     "email": "Donec.elementum@scelerisquescelerisquedui.net",
-    "phone": "(748) 206-2688"
-  },
-  {
-    "id": "1705271255388",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "(123) 456-7890"
-  },
-  {
-    "id": "1705345978889",
-    "name": "Alex Pazyul",
-    "email": "sdfgh@gmail.com",
-    "phone": "9876545678"
-  },
-  {
-    "id": "1705345991385",
-    "name": "Alex Pazyul",
-    "email": "sdfgh@gmail.com",
-    "phone": "hsxvsajhx"
-  },
-  {
-    "id": "1705346052759",
-    "name": "Alex Pazyul",
-    "email": "cashgxcashg@gmail.com",
-    "phone": "true"
-  },
-  {
-    "id": "1705346081797",
-    "name": "Alex Pazyul",
-    "email": "cashgxcashg@gmail.com",
-    "phone": "true"
-  },
-  {
-    "id": "1705346092320",
-    "name": "Alex Pazyul",
-    "email": "cashgxcashg@gmail.com",
-    "phone": "true"
-  },
-  {
-    "id": "1705346101247",
-    "name": "Alex Pazyul",
-    "email": "cashgxcashg@gmail.com",
-    "phone": "true"
-  },
-  {
-    "id": "1705346138316",
-    "name": "Alex Pazyul",
-    "email": "cashgxcashg@gmail.com",
-    "phone": "true"
-  },
-  {
-    "id": "1705346172407",
-    "name": "Alex Pazyul",
-    "email": "cashgxcashg@gmail.com",
-    "phone": "true"
-  },
-  {
-    "id": "1705346252179",
-    "name": "Alex Pazyuk",
-    "email": "cashgxcashg@gmail.com",
-    "phone": 4567865456
-  },
-  {
-    "id": "1705346260976",
-    "name": "Alex Pazyuk",
-    "email": "cashgxcashg@gmail.com",
-    "phone": "4216576893"
-  },
-  {
-    "id": "1705348531350",
-    "name": "12344",
-    "email": "csgdvchjsb@gmail.com",
-    "phone": "4256718393012"
-  },
-  {
-    "id": "1705348561258",
-    "name": "12344",
-    "email": "csgdvchjsb@gmail.com",
-    "phone": 32671298
-  },
-  {
-    "id": "1705348641010",
-    "name": "Alex",
-    "email": "sdvhgcvz@gnail.com",
-    "phone": 1234567
-  },
-  {
-    "id": "1705348646537",
-    "name": "Alex",
-    "email": "sdvhgcvz@gnail.com",
-    "phone": 1234567
+    "phone": "(748) 206-2688",
+    "favorite": true
   }
 ]
