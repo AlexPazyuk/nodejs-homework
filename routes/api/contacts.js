@@ -127,6 +127,8 @@
 const express = require('express');
 const Joi = require('joi');
 const Contact = require('../../models/contacts');
+const mongoose = require('mongoose');
+
 
 const router = express.Router();
 
@@ -159,6 +161,10 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'Not found' });
+  }
+
   try {
     const contact = await Contact.findById(id);
 
@@ -172,11 +178,18 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+
 router.post('/', async (req, res, next) => {
   const { body } = req;
 
   try {
     const { error } = contactJoiSchema.validate(body);
+    const requiredFields = ['name', 'email', 'phone'];
+    const missingField = requiredFields.find(field => !(field in body));
+
+    if (missingField) {
+      return res.status(400).json({message:`missing required ${missingField} field`})
+    }
     if (error) {
       return res.status(400).json({ message: error.message });
     }
@@ -191,10 +204,12 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   const { id } = req.params;
-
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'Not found' });
+  }
   try {
     const removedContact = await Contact.findByIdAndDelete(id);
-
+  
     if (removedContact) {
       res.status(200).json({ message: 'contact deleted' });
     } else {
@@ -208,7 +223,9 @@ router.delete('/:id', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   const { id } = req.params;
   const { body } = req;
-
+if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'ID Not found' });
+  }
   try {
     if (!body || Object.keys(body).length === 0) {
       return res.status(400).json({ message: 'missing fields' });
@@ -235,7 +252,9 @@ router.put('/:id', async (req, res, next) => {
 router.patch('/:id/favorite', async (req, res, next) => {
   const { id } = req.params;
   const { body } = req;
-
+if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'Not found' });
+  }
   try {
     if (!body || Object.keys(body).length === 0 || !('favorite' in body)) {
       return res.status(400).json({ message: 'missing field favorite' });
