@@ -1,78 +1,101 @@
-const fs = require('fs/promises');
-const path = require('path');
+// const fs = require('fs/promises');
+// const path = require('path');
 
-const contactsPath = path.join(__dirname,'contacts.json');
+// const contactsPath = path.join(__dirname,'contacts.json');
 
-async function listContacts(){
-  try {
-    const data = await fs.readFile(contactsPath, 'utf-8');
-    const parsedData = JSON.parse(data);
-    return parsedData;
-  } catch (error) {
-    console.error(error)
-    return [];
-  }
-};
+// async function listContacts(){
+//   try {
+//     const data = await fs.readFile(contactsPath, 'utf-8');
+//     const parsedData = JSON.parse(data);
+//     return parsedData;
+//   } catch (error) {
+//     console.error(error)
+//     return [];
+//   }
+// };
 
-async function getContactById(contactId) {
-  try {
-    const contacts = await listContacts();
-    return contacts.find(contact => contact.id === contactId) || null;
-  } catch (error) {
-    return null;
-  }
-};
+// async function getContactById(contactId) {
+//   try {
+//     const contacts = await listContacts();
+//     return contacts.find(contact => contact.id === contactId) || null;
+//   } catch (error) {
+//     return null;
+//   }
+// };
 
-async function removeContact(contactId){
-  try {
-    const contacts = await listContacts();
-    const updatedContacts = contacts.filter(contact => contact.id !== contactId);
-    await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
+// async function removeContact(contactId){
+//   try {
+//     const contacts = await listContacts();
+//     const updatedContacts = contacts.filter(contact => contact.id !== contactId);
+//     await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
 
-    const removedContact = contacts.find(contact => contact.id === contactId) || null;
-    return removedContact;
-  } catch (error) {
-    return null;
-  }
-};
+//     const removedContact = contacts.find(contact => contact.id === contactId) || null;
+//     return removedContact;
+//   } catch (error) {
+//     return null;
+//   }
+// };
 
-async function addContact(body){
-  try {
-    const newContact = { id: Date.now().toString(), ...body };
-    const contacts = await listContacts();
-    const updatedContacts = [...contacts, newContact];
-    await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
+// async function addContact(body){
+//   try {
+//     const newContact = { id: Date.now().toString(), ...body };
+//     const contacts = await listContacts();
+//     const updatedContacts = [...contacts, newContact];
+//     await fs.writeFile(contactsPath, JSON.stringify(updatedContacts, null, 2));
 
-    return newContact;
-  } catch (error) {
-    return null;
-  }
-};
+//     return newContact;
+//   } catch (error) {
+//     return null;
+//   }
+// };
 
-async function updateContact(contactId, body) {
-  try {
-    const contacts = await listContacts();
-    const index = contacts.findIndex((contact) => contact.id === contactId);
+// async function updateContact(contactId, body) {
+//   try {
+//     const contacts = await listContacts();
+//     const index = contacts.findIndex((contact) => contact.id === contactId);
 
-    if (index === -1) {
-      return { message: 'Not found' };
-    }
+//     if (index === -1) {
+//       return { message: 'Not found' };
+//     }
 
-    const updatedContact = { ...contacts[index], ...body };
-    contacts[index] = updatedContact;
+//     const updatedContact = { ...contacts[index], ...body };
+//     contacts[index] = updatedContact;
 
-    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+//     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 
-    return updatedContact;
-  } catch (error) {
-    return null;
-  }
-}
+//     return updatedContact;
+//   } catch (error) {
+//     return null;
+//   }
+// }
 
-module.exports = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-  updateContact,
-};
+// module.exports = {
+//   listContacts,
+//   getContactById,
+//   removeContact,
+//   addContact,
+//   updateContact,
+// };
+
+const mongoose = require('mongoose');
+
+const contactSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Set name for contact'],
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  favorite: {
+    type: Boolean,
+    default: false,
+  },
+}, { versionKey: false });
+
+const Contact = mongoose.model('Contact', contactSchema);
+
+module.exports = Contact;
