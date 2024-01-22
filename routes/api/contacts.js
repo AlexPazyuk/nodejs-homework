@@ -128,9 +128,12 @@ const express = require('express');
 const Joi = require('joi');
 const Contact = require('../../models/contacts');
 const mongoose = require('mongoose');
+const authMiddleware = require('../../middleware/authMiddleware');
 
 
 const router = express.Router();
+
+router.use(authMiddleware);
 
 const contactJoiSchema = Joi.object({
   name: Joi.string().required(),
@@ -150,7 +153,8 @@ const contactJoiPatchSchema = Joi.object({
 
 router.get('/', async (req, res, next) => {
   try {
-    const contactsList = await Contact.find({});
+    const userId = req.user._id;
+    const contactsList = await Contact.find({ owner: userId });
     console.log('Contacts:', contactsList);
     res.status(200).json(contactsList);
   } catch (error) {
@@ -160,13 +164,14 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
+  const userId = req.user._id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: 'Not found' });
   }
 
   try {
-    const contact = await Contact.findById(id);
+    const contact = await Contact.findOne({ _id: id, owner: userId });
 
     if (contact) {
       res.status(200).json(contact);
