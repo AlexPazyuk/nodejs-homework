@@ -8,7 +8,6 @@ const authMiddleware = async (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
 
   if (!authorizationHeader) {
-    console.log('hello');
     return res.status(401).json({ message: 'Not authorized' });
   }
 
@@ -26,7 +25,6 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log('hello2');
     return res.status(401).json({ message: 'Not authorized' });
   }
 };
