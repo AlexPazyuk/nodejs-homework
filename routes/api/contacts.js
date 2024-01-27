@@ -129,6 +129,8 @@ const Joi = require('joi');
 const Contact = require('../../models/contacts');
 const mongoose = require('mongoose');
 const authMiddleware = require('../../middleware/authMiddleware');
+const { validateRequestBody } = require('../../middleware/validationMiddleware');
+const checkFieldsMiddleware = require('../../middleware/checkFieldsMiddleware');
 
 
 const router = express.Router();
@@ -225,23 +227,13 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', validateRequestBody(contactJoiPutSchema), checkFieldsMiddleware, async (req, res, next) => {
   const { id } = req.params;
   const { body } = req;
 if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: 'ID Not found' });
   }
   try {
-    if (!body || Object.keys(body).length === 0) {
-      return res.status(400).json({ message: 'missing fields' });
-    }
-
-    const { error } = contactJoiPutSchema.validate(body);
-
-    if (error) {
-      return res.status(400).json({ message: error.message });
-    }
-
     const updatedContact = await Contact.findByIdAndUpdate(id, body, { new: true });
 
     if (updatedContact) {
@@ -254,24 +246,14 @@ if (!mongoose.Types.ObjectId.isValid(id)) {
   }
 });
 
-router.patch('/:id/favorite', async (req, res, next) => {
+router.patch('/:id/favorite',validateRequestBody(contactJoiPatchSchema), checkFieldsMiddleware, async (req, res, next) => {
   const { id } = req.params;
   const { body } = req;
 if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: 'Not found' });
   }
   try {
-    if (!body || Object.keys(body).length === 0 || !('favorite' in body)) {
-      return res.status(400).json({ message: 'missing field favorite' });
-    }
-
-    const { error } = contactJoiPatchSchema.validate(body);
-
-    if (error) {
-      return res.status(400).json({ message: error.message });
-    }
-
-    const updatedContact = await Contact.findByIdAndUpdate(
+      const updatedContact = await Contact.findByIdAndUpdate(
       id,
       { favorite: body.favorite },
       { new: true }

@@ -9,8 +9,8 @@ const usersRouter = require('./routes/api/users');
 
 
 
-const app = express();
 
+const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 dotenv.config();
@@ -29,7 +29,7 @@ app.use(express.json());
 
 
 app.use('/api/contacts', contactsRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 
 // Error handling middleware
 
@@ -38,7 +38,8 @@ app.use((req, res) => {
 })
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message });
+  const statusCode = err.status || 500;
+  res.status(statusCode).json({ message: err.message });
 });
 
 module.exports = app;
