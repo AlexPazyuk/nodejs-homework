@@ -78,6 +78,7 @@
 // };
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const contactSchema = new mongoose.Schema({
   name: {
@@ -93,6 +94,10 @@ const contactSchema = new mongoose.Schema({
   favorite: {
     type: Boolean,
     default: false,
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',  // Вказуємо на колекцію користувачів
   },
 }, { versionKey: false });
 
