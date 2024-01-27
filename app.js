@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const logger = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -30,6 +31,7 @@ app.use(express.json());
 
 app.use('/api/contacts', contactsRouter);
 app.use('/users', usersRouter);
+app.use('/avatars', express.static(path.join(__dirname, 'public/avatars')));
 
 // Error handling middleware
 
