@@ -8,6 +8,8 @@ const multer = require('multer');
 const Jimp = require('jimp');
 const gravatar = require('gravatar');
 
+const multerMiddleware = require('../middleware/multerMiddleware');
+
 
 const userJoiSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -122,24 +124,14 @@ const getCurrentUser = async (req, res, next) => {
 
 // !Оновлення аватарки
 
-// Папка для завантаження тимчасових файлів
-const uploadDir = path.join(__dirname, '../tmp');
-
-
-// Конфігурація Multer
-const storage = multer.diskStorage({
-  destination: uploadDir,
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `${Date.now()}${ext}`);
-  },
-});
-
-const upload = multer({ storage });
-
 // Ендпойнт для оновлення аватарки
 const updateAvatar = async (req, res, next) => {
-  upload.single('avatar');
+  multerMiddleware.single('avatar')(req, res, async (err) => {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ message: 'Multer error' });
+    } else if (err) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
     try {
       // Перевірка чи був завантажений файл
       if (!req.file) {
@@ -170,6 +162,6 @@ const updateAvatar = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  };
+  })};
 
 module.exports = { register, login, logout, getCurrentUser, updateAvatar };
