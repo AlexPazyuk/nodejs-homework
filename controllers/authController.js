@@ -29,13 +29,13 @@ const sendVerificationEmail = async (email, verificationToken) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'example-email@gmail.com',
-      pass: 'example-password',
+      user: 'example-email@meta.ua',
+      pass: 'Example-password-1234',
     },
   });
 
   const mailOptions = {
-    from: 'example-email@gmail.com',
+    from: 'example-email@meta.ua',
     to: email,
     subject: 'Verify Your Email',
     text: `Click the following link to verify your email: http://localhost:3000/users/verify/${verificationToken}`,
