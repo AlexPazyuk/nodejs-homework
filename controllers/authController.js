@@ -7,6 +7,8 @@ const fs = require('fs').promises;
 const multer = require('multer');
 const Jimp = require('jimp');
 const gravatar = require('gravatar');
+const { v4: uuidv4 } = require('uuid');
+const nodemailer = require('nodemailer');
 
 const multerMiddleware = require('../middleware/multerMiddleware');
 
@@ -20,6 +22,29 @@ const loginJoiSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
+
+// !Verification//
+
+const sendVerificationEmail = async (email, verificationToken) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'example-email@gmail.com',
+      pass: 'example-password',
+    },
+  });
+
+  const mailOptions = {
+    from: 'example-email@gmail.com',
+    to: email,
+    subject: 'Verify Your Email',
+    text: `Click the following link to verify your email: http://localhost:3000/users/verify/${verificationToken}`,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+// !Registration//
 
 const register = async (req, res, next) => {
   try {
@@ -43,6 +68,11 @@ const register = async (req, res, next) => {
       password: hashedPassword,
        avatarURL,
     });
+    const verificationToken = uuidv4();
+    User.verificationToken = verificationToken;
+    await User.save();
+
+    await sendVerificationEmail(newUser.email, verificationToken);
 
     res.status(201).json({
       user: {
@@ -55,6 +85,8 @@ const register = async (req, res, next) => {
     next(error);
   }
 };
+
+// !Loging In//
 
 const login = async (req, res, next) => {
   const { error } = loginJoiSchema.validate(req.body);
@@ -91,6 +123,8 @@ const login = async (req, res, next) => {
   }
 };
 
+// !Loging Out//
+
 const logout = async (req, res, next) => {
   const userId = req.user._id;
 
@@ -111,6 +145,8 @@ const logout = async (req, res, next) => {
   }
 };
 
+// !Current User//
+
 const getCurrentUser = async (req, res, next) => {
   try {
     res.status(200).json({
@@ -122,7 +158,7 @@ const getCurrentUser = async (req, res, next) => {
   }
 };
 
-// !Оновлення аватарки
+// ! Avatar Update//
 
 // Ендпойнт для оновлення аватарки
 const updateAvatar = async (req, res, next) => {
@@ -162,6 +198,9 @@ const updateAvatar = async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  })};
+  })
+};
+  
 
-module.exports = { register, login, logout, getCurrentUser, updateAvatar };
+
+module.exports = { register, login, logout, getCurrentUser, updateAvatar};
