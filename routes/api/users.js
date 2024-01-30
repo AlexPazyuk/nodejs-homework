@@ -9,3 +9,4 @@ router.post('/logout', authMiddleware, authController.logout);
 router.get('/current', authMiddleware, authController.getCurrentUser);
 router.patch('/avatars', authMiddleware, authController.updateAvatar);
 
+module.exports = router;
