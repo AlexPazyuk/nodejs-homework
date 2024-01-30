@@ -1,4 +1,4 @@
-const app = require('./app'); // імпортуємо створений вами файл app.js
+const app = require('./app');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
