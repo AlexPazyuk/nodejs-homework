@@ -42,7 +42,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
     from: 'example-email@meta.ua',
     to: email,
     subject: 'Verify Your Email',
-    text: `Click the following link to verify your email: http://localhost:3000/api/users/verify/${verificationToken}`,
+    text: `Click the following link to verify your email: http://localhost:3000/users/verify/${verificationToken}`,
   };
 
   // Відправляємо лист
@@ -107,6 +107,10 @@ const login = async (req, res, next) => {
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Email or password is wrong' });
+    }
+
+    if (!user.verify) {
+      return res.status(401).json({ message: 'Email is not verified' });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
