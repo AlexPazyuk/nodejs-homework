@@ -26,21 +26,26 @@ const loginJoiSchema = Joi.object({
 // !Verification//
 
 const sendVerificationEmail = async (email, verificationToken) => {
+  // Створюємо транспортер для відправлення листів через SMTP meta.ua
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.meta.ua',
+    port: 465,
+    secure: true, // Використовується SSL
     auth: {
       user: 'example-email@meta.ua',
       pass: 'Example-password-1234',
     },
   });
 
+  // Налаштовуємо опції для листа
   const mailOptions = {
     from: 'example-email@meta.ua',
     to: email,
     subject: 'Verify Your Email',
-    text: `Click the following link to verify your email: http://localhost:3000/users/verify/${verificationToken}`,
+    text: `Click the following link to verify your email: http://localhost:3000/api/users/verify/${verificationToken}`,
   };
 
+  // Відправляємо лист
   await transporter.sendMail(mailOptions);
 };
 
